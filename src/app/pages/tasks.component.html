@@ -1,0 +1,60 @@
+<h2>My Tasks</h2>
+<div>
+  <label>Task name:</label> <input #taskName />
+  <button (click)="add(taskName.value); taskName.value=''">
+    Add
+  </button>
+</div>
+<ul id="taskNav">
+  <li [class.active]="statusView=='default'">
+  <button (click)="sortTasks('all'); statusView=='default';">
+    All
+  </button></li>
+
+  <li [class.active]="statusView=='pending'">
+  <button (click)="sortTasks('pending'); statusView=='pending';">
+    pending
+  </button>
+  </li>
+
+  <li [class.active]="statusView=='overdue'">
+  <button (click)="sortTasks('overdue'); statusView=='overdue'">
+    overdue
+  </button>
+</li>
+<li [class.active]="statusView=='complete'">
+  <button (click)="sortTasks('complete'); statusView=='complete'">
+    complete
+  </button>
+  </li>
+</ul>
+  <div>
+<ul class="tasks" id="tasksList">
+  <li *ngFor="let task of tasks" (click)="onSelect(task)"
+      [class.selected]="task === selectedTask">
+    <span class="badge">{{task.id}}</span>
+    <span>{{task.name}}</span>
+    <button class="delete"
+      (click)="delete(task); $event.stopPropagation()">x</button>
+  </li>
+</ul>
+
+<div *ngIf="selectedTask">
+    <h2>
+    {{selectedTask.name}}  is {{selectedTask.status | uppercase}}
+    </h2>
+    <button (click)="gotoDetail()">View Details</button>
+  </div>
+    </div>
+
+
+<div ><ul id=sort class='dummyList'></ul></div>
+
+
+  <div [ngSwitch]="statusView">
+        <div *ngSwitchCaseDefault>All Status</div>
+        <div *ngSwitchCase="'complete'"><h3>Complete</h3></div>
+        <div *ngSwitchCase="'pending'"><h3>Pending</h3></div>
+        <div *ngSwitchCase="'overdue'"><h3>Overdue</h3></div>
+  </div>
+ 
